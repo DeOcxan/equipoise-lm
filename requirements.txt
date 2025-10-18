@@ -1,0 +1,49 @@
+# Core Dependencies for EBT-Mastery
+# Energy-Based Transformers from Scratch
+# Python 3.12+
+
+# Deep Learning Framework
+# Note: For latest features, manually upgrade with care
+torch>=2.2.0,<=2.5.1
+torchvision>=0.17.0,<=0.20.1
+torchaudio>=2.2.0,<=2.5.1
+
+# Data Processing
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+
+# Real Dataset Support
+datasets>=2.18.0,<3.0.0  # Hugging Face datasets for GLUE
+transformers>=4.35.0,<5.0.0  # For NLP tokenizers
+
+# Visualization
+matplotlib>=3.7.0,<4.0.0
+seaborn>=0.12.0,<0.14.0
+pillow>=10.0.0,<11.0.0
+
+# Experiment Tracking (Choose one or both)
+wandb>=0.16.0,<0.20.0  # WandB cloud logging
+tensorboard>=2.14.0,<3.0.0  # TensorBoard local logging
+
+# Progress Bars
+tqdm>=4.65.0,<5.0.0
+
+# Development Tools
+pytest>=7.4.0,<8.0.0
+pytest-cov>=4.1.0  # Coverage reporting
+black>=23.0.0,<25.0.0
+flake8>=6.0.0,<8.0.0
+mypy>=1.4.0,<2.0.0
+
+# Jupyter Notebook Support (Optional)
+jupyter>=1.0.0
+ipykernel>=6.25.0
+ipywidgets>=8.0.0
+
+# Additional Utilities
+scikit-learn>=1.3.0,<1.6.0
+scipy>=1.11.0,<1.15.0
+
+# Type hints and static analysis
+typing-extensions>=4.7.0
+
