@@ -1,0 +1,63 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+type: software
+title: "Equipoise"
+abstract: >-
+  Families of text generation compared at equal training compute, under one protocol, at small
+  scale. Version 1.0 contains an independent small-scale reimplementation of the
+  Energy-Based Transformer (EBT), studied on three tasks (regression with two correct answers,
+  MNIST denoising and a character-level language model on Tiny Shakespeare) and compared with a
+  baseline of the same size on each, at equal parameters and equal training steps. It asks seven
+  questions on the EBT. Five are answered by their rules: faithful implementation, why use an
+  energy, error against thinking steps, energy as a verifier and thinking out of distribution.
+  The comparison at equal cost is answered in part, at equal parameters and equal steps only, and
+  the training-component ablations were not run. The comparison of several families at equal
+  compute is planned from version 1.1.
+authors:
+  - given-names: Artyom
+    family-names: Mokrushin
+    alias: DeOcxan
+version: "1.0"
+date-released: 2026-11-24
+license: MIT
+repository-code: "https://github.com/DeOcxan/equipoise-lm"
+url: "https://github.com/DeOcxan/equipoise-lm"
+keywords:
+  - energy-based transformers
+  - energy-based models
+  - language models
+  - text generation
+  - inference-time compute
+  - reimplementation
+references:
+  - type: conference-paper
+    title: "Energy-Based Transformers are Scalable Learners and Thinkers"
+    authors:
+      - given-names: Alexi
+        family-names: Gladstone
+      - given-names: Ganesh
+        family-names: Nanduru
+      - given-names: Md Mofijul
+        family-names: Islam
+      - given-names: Peixuan
+        family-names: Han
+      - given-names: Hyeonjeong
+        family-names: Ha
+      - given-names: Aman
+        family-names: Chadha
+      - given-names: Yilun
+        family-names: Du
+      - given-names: Heng
+        family-names: Ji
+      - given-names: Jundong
+        family-names: Li
+      - given-names: Tariq
+        family-names: Iqbal
+    year: 2026
+    conference:
+      name: "International Conference on Learning Representations (ICLR 2026)"
+    notes: "ICLR 2026, oral presentation; arXiv v1, 2 July 2025."
+    identifiers:
+      - type: other
+        value: "arXiv:2507.02092"
+    url: "https://arxiv.org/abs/2507.02092"

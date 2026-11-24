@@ -1,432 +1,293 @@
-# ⚡️🧠 Energy-Based Transformers Mastery
+# Equipoise
 
-<div align="center">
+Families of text generation compared at equal training compute, under one protocol, at small
+scale. This is v1.0: an independent reimplementation of the Energy-Based Transformer, compared
+with same-size baselines on three small tasks. The comparison of families is built in the next
+versions (see [Roadmap](#roadmap)).
 
-![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)
+[![CI][ci-badge]][ci]
+[![Licence: MIT][licence-badge]](LICENSE)
+[![Python 3.12][python-badge]][python]
 
-*Educational implementation of Energy-Based Models (EBMs) and Energy-Based Transformers (EBTs) from scratch*
+[ci-badge]: https://github.com/DeOcxan/equipoise-lm/actions/workflows/ci.yml/badge.svg
+[ci]: https://github.com/DeOcxan/equipoise-lm/actions/workflows/ci.yml
+[licence-badge]: https://img.shields.io/badge/licence-MIT-blue.svg
+[python-badge]: https://img.shields.io/badge/python-3.12-blue.svg
+[python]: https://www.python.org/downloads/
 
-[Quick Start](#-quick-start) • [Features](#-features) • [Documentation](#-documentation) • [Benchmarks](#-benchmarks)
+## What this is
 
-</div>
+Papers on text generation report their families at different scales, on different data and under
+different protocols, so their claims cannot be set side by side. The families include
+autoregressive transformers and diffusion, flow, energy-based and recurrent-depth models.
+Equipoise measures them under one protocol and at equal training compute, at a scale that anyone
+can rerun on one machine. Hypotheses and decision rules are fixed before measuring. The project
+asks how the families compare in quality, cost and return on inference-time compute, and whether
+the central claim of each family's paper holds ([docs/design.md section
+1.1](docs/design.md#11-main-question)).
 
----
+v1.0 contributes the first family and the measurement machinery. It contains an independent
+reimplementation of the Energy-Based Transformer (EBT) [EBT], whose gradients and thinking loop are
+checked against finite differences. It asks seven questions about the EBT on three tasks with 5
+seeds each. Five are answered by their rules (G1 to G5), G7 is answered in part, at equal
+parameters and equal steps only, and G6 was not run. Every result file, checkpoint and table
+needed to rerun them is published. Some v1.0 decisions were made after results had been seen, as
+listed under [Limitations](#limitations).
 
-## 📚 Overview
+The name: equipoise is the state of genuine uncertainty about which option is better, the
+condition for a fair comparison.
 
-This repository provides a **comprehensive, from-scratch implementation** of Energy-Based Models and Energy-Based Transformers for educational and research purposes. Unlike standard transformers that predict probability distributions, EBTs output energy values and find optimal predictions through **iterative optimization** — enabling adaptive "thinking" and better generalization.
+## Findings of v1.0
 
-### ⚠️ Project Context & Scope
+Values are the mean over seeds 0–4 ± half-width of the 95% t-interval. The labels (a) to (c5), S1,
+S2, I and the others are defined in the [glossary](docs/glossary.md).
 
-**What This Project Is:**
-- 📚 **Educational Implementation**: Learn EBT concepts from scratch with clear, documented code
-- 🔬 **Research Exploration**: Experiment with fresh ML research (arXiv July 2025: [Gladstone et al.](https://arxiv.org/abs/2507.02092))
-- 🧪 **Prototype Platform**: Test energy-based learning on real datasets (CIFAR-10/100, GLUE)
+- The reimplementation's gradients and thinking loop pass their checks against finite
+  differences and hand-derived values
+  ([G1](docs/questions.md#g1-is-the-implementation-faithful-to-the-method)).
+- At equal parameters and equal training steps the EBT is worse than its baseline on text, and on
+  MNIST at the trained step count, while it spends more compute per training step. On MNIST at 1
+  inference step it is slightly better, which is not the pre-registered comparison. On regression
+  both predict near the mean of the two branches
+  ([G7](docs/questions.md#g7-is-the-comparison-fair-at-equal-cost)).
+- More thinking does not help. Text bits per character stay within the seed spread from 1 to 64
+  inference steps, though they are slightly higher at 64 steps on every seed. MNIST PSNR falls
+  already at the trained 2 steps and further beyond them
+  ([G3](docs/questions.md#g3-how-does-error-scale-with-thinking)).
 
-**What This Project Is NOT:**
-- ❌ **Production-Ready**: Educational implementation, not optimized framework
-- ❌ **Mainstream**: EBT is emerging research (~20K YouTube views, not yet HuggingFace mainstream)
-- ❌ **State-of-the-Art**: Established transformers (GPT, BERT, LLaMA) have deeper research and larger communities
+  ![Error against inference steps for text, MNIST and regression](results/g3_steps.png)
 
-**Why EBT Matters (Despite Being Niche):**
-- ✨ **System 2 Thinking**: Energy minimization enables deeper reasoning (35% scaling improvements in research)
-- 🎯 **Adaptive Compute**: Model "thinks" longer on harder problems (unlike fixed-cost transformers)
-- 🔮 **2025 Research Trend**: Part of growing interest in unsupervised reasoning and test-time compute
+  *Error against 1 to 64 inference steps, mean over seeds 0–4 with the 95% interval as a band; the
+  dotted line marks the trained step count. The text axis is zoomed: from 1 to 64 steps the bits
+  per character rise by 0.014 (2.3208 to 2.3344). Regression r is on a log scale, with reference
+  lines at r = 1 (between the branches) and r = 0.1 (on a branch); (c2) lies on (b).*
+- The energy does not select better candidates on text or MNIST: choosing the lowest-energy
+  candidate is worse than random selection
+  ([G4](docs/questions.md#g4-does-energy-verify-answers)).
+- The paper's out-of-distribution effect is not observed at this scale
+  ([G5](docs/questions.md#g5-does-thinking-help-more-out-of-distribution)).
+- With two correct answers per input, the EBT trained with the paper's objective, (b), predicts
+  near the mean of the two, as does (c2). The model (c1) diverged, and (c3) does not reach a
+  branch. Only the models with objectives from outside the paper, (a2), (c4) and (c5), reach a
+  branch, and they return one branch per input ([G2](docs/questions.md#g2-why-use-an-energy)).
 
-**Use This Project To:**
-- Understand energy-based learning concepts
-- Explore adaptive computation strategies
-- Demonstrate awareness of cutting-edge research
-- Build educational ML portfolio pieces
+  ![Regression predictions of every model, seed 0](results/regression/g2/full/predictions.png)
 
-💡 **Portfolio Position**: "Experimental EBT implementation (2025 research) for adaptive compute — exploring energy-based learning beyond standard transformers."
+  *Test data and predictions against x, seed 0: (a), (b) and (c2) predict near the mean, (c1)
+  diverged, (c3) is scattered, and (a2), (c4) and (c5) lie on the branches.*
 
-### 🎯 Key Features
+## Results
 
-- **📖 Educational**: Progressive learning path from simple EBMs to full EBTs
-- **🔬 Research-Grade Datasets**: CIFAR-10/100, GLUE benchmark alongside synthetic examples
-- **🏗️ Well-Engineered**: Docker, CPU fallback, 50+ tests, CI/CD pipeline
-- **💎 Clean Code**: OOP/SOLID principles, well-documented, extensible
-- **🧪 Edge Case Testing**: High-dimensional energy, numerical stability, gradient flow
-- **⚡ Benchmarked**: Performance metrics on real data (PSNR, accuracy, throughput)
+At equal parameters and equal training steps, test split, 5 seeds:
 
----
+| Task | Metric | EBT | Baseline |
+|---|---|---|---|
+| Text, Tiny Shakespeare | bits per character, lower is better | 2.332 ± 0.022 (S2, 4 inference steps) | 2.266 ± 0.020 (causal Transformer) |
+| MNIST denoising, noise 0.1 | PSNR in dB, higher is better | 27.00 ± 0.03 (S1, 2 inference steps) | 27.54 ± 0.04 (one-pass denoiser) |
+| Regression, y = ±√x | branch distance r, lower is better | 0.979 ± 0.001, EBT (b) with mean squared error | 0.973 ± 0.002, feed-forward regressor (a) |
 
-## 🚀 Quick Start
+Sources: `results/text/lm/full/table.md`, `results/mnist/denoising/full/table.md` and
+`results/regression/g2/full/table.md`. Per training window the text EBT made about 4.49 forward
+and 4.49 first-order backward passes plus 1.50 second-order passes, against 1 and 1 for the
+Transformer.
 
-### Option 1: Docker (Recommended)
+On MNIST at 1 inference step the EBT reaches 27.63 ± 0.05 dB, above the denoiser at 27.54 ± 0.04.
+The pre-registered comparison is at the trained 2 steps, so this is reported, not decided
+(`results/mnist/g3_g4/full/table.md`). On regression both (a) and (b) predict near the mean of
+the two branches (r ≈ 1). Neither solves the task, and the small difference in r is not a ranking.
 
-```bash
-# GPU training
-docker-compose up -d ebt-gpu
-docker exec -it ebt-mastery-gpu bash
-python EBT_IMG/train_ebt_img.py --dataset cifar10
+Thinking, verification and out of distribution on text and MNIST
+(`results/<task>/g3_g4/full/table.md` and `results/<task>/g5/full/table.md`):
 
-# CPU training (no GPU required)
-docker-compose up -d ebt-cpu
-docker exec -it ebt-mastery-cpu bash
-```
+| Question and quantity | Text EBT, bits per character | MNIST EBT, PSNR in dB |
+|---|---|---|
+| G3, 1 inference step | 2.3208 ± 0.0218 | 27.6317 ± 0.0536 |
+| G3, trained step count | 2.3318 ± 0.0222 (4 steps) | 27.0003 ± 0.0307 (2 steps) |
+| G3, 64 steps | 2.3344 ± 0.0215 | 17.1189 ± 0.3812 |
+| G4, Spearman ρ of energy and error | 0.0482 ± 0.2094 | 0.6124 ± 0.0083 |
+| G4, best-of-32 fraction of the oracle gain | −0.450 ± 0.242 | −0.379 ± 0.025 |
+| G5, I in distribution | −0.0095 ± 0.0060 | −10.2741 ± 0.9499 |
+| G5, I out of distribution | −0.0003 ± 0.0074 | −0.2149 ± 0.1340 (noise 0.2) |
+| G5, outcome | 3 | 3 |
 
-### Option 2: Local Installation
+Regression EBTs and energies (`results/regression/g3_g4/full/table.md` and
+`results/regression/g5/full/table.md`):
 
-```bash
-git clone https://github.com/DeOcxan/EBT-Mastery.git
-cd EBT-Mastery
+| Model | G3 ranges of r | G4 Spearman ρ | G4 best-of-32 fraction | G5 outcome |
+|---|---|---|---|---|
+| (b) | rising 1–4, flat 4–64 | −0.1694 ± 0.1290 | 0.003 ± 0.050 | 3 |
+| (c1), diverged | falling 1–16, flat 16–64 | 0.8650 ± 0.0447 | 1.000 ± 0.000 | 4 |
+| (c2) | rising 1–4, flat 4–64 | 0.0168 ± 0.2449 | −0.020 ± 0.044 | 3 |
+| (c3) | rising 1–2, flat 2–64 | 0.1674 ± 0.3707 | −2.049 ± 2.490 | 3 |
+| (c4) | no step count | −0.2358 ± 0.1165 | 0.020 ± 0.040 | not measured |
+| (c5) | no step count | 0.0850 ± 0.4003 | −0.558, 1 of 5 seeds defined | not measured |
 
-# Create environment
-conda create -n ebt python=3.12
-conda activate ebt
+- G3. The range rule calls the text curve flat, as it compares the curve with the spread across
+  seeds. G5 compares 1 and 64 steps within each seed. On all 5 seeds the bits per character at 64
+  steps are higher than at 1 step, so the paired comparison detects a small degradation
+  ([G3](docs/questions.md#g3-how-does-error-scale-with-thinking)).
+- G4. For the regression models that did not diverge, ρ is about 0 or negative, and best-of-32 by
+  lowest energy is not better than random. Only (c1), the diverged model, selects as well as the
+  oracle. On text and MNIST selection by energy is worse than random
+  ([G4](docs/questions.md#g4-does-energy-verify-answers)).
+- G5. The outcomes are those of [docs/method.md section
+  20.2](docs/method.md#202-relative-improvement-its-interval-and-the-outcome). For text the report
+  words outcome 3 as "Thinking degrades the result in distribution and out of distribution on
+  average; the relative degradation out of distribution is not measurably different. This is not
+  the paper's effect." In plain terms, thinking degrades the text result in distribution on its
+  interval. Out of distribution it has no measurable effect, with a mean slightly below 0
+  ([G5](docs/questions.md#g5-does-thinking-help-more-out-of-distribution)).
+- G6, the training-component ablations, was not run in v1.0. It moves to W5 in v1.1 (planned).
+- G7 was measured only at equal parameters and equal steps (the first table). Its part at equal
+  cost and its plots are planned for v1.1.
+
+## Limitations
+
+v1.0 is small. It has one model size and one dataset per task, about 8.2 passes over Tiny
+Shakespeare, and equal training steps rather than equal compute. Several best checkpoints are at
+or near the last step, the searches used one seed, and the intervals cover training randomness
+only. Everything ran on one machine, whose MPS runs are not bit-reproducible. The full list,
+including the decisions and revisions made after results had been seen, is in [docs/questions.md,
+Limitations and threats to validity](docs/questions.md#limitations-and-threats-to-validity).
+
+## Quick start
+
+Tested on Python 3.12. macOS on Apple silicon (MPS):
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-
-# Train on real data
-python EBT_IMG/train_ebt_img.py --dataset cifar10 --device auto
+pip install --no-deps -e .
 ```
 
-**Auto Device Selection**: Automatically falls back to CPU if GPU unavailable.
+Linux, CPU only:
 
----
-
-## 🎯 Features
-
-### Real-World Datasets
-
-| Domain | Datasets | Credibility |
-|--------|----------|-------------|
-| **NLP** | GLUE (SST-2, COLA, MRPC) | ⭐⭐⭐⭐⭐ Industry standard |
-| **Vision** | CIFAR-10/100 | ⭐⭐⭐⭐⭐ Widely used benchmark |
-| **Legacy** | Synthetic patterns | ⭐⭐ Educational only |
-
-### Engineering Features
-
-- **Docker Support**: Reproducible environments (GPU + CPU)
-- **Device Auto-Detection**: Smart fallback to CPU/MPS
-- **Flexible Logging**: WandB + TensorBoard support (auto-detection)
-- **Comprehensive Tests**: 50+ unit tests with edge cases
-- **Memory Efficient**: Tested with large batches
-- **Version Handling**: Compatible with PyTorch 2.0-2.5
-
-### Architecture Components
-
-```
-Input → Transformer Blocks → Energy Head (scalar)
-         ↓
-     Iterative Optimization (3-10 steps)
-         ↓
-     Output (via gradient descent)
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --no-deps --index-url https://download.pytorch.org/whl/cpu torch==2.15.0
+pip install -r requirements.txt
+pip install --no-deps -e .
 ```
 
-**Research Features:**
-- MCMC corruption strategies
-- Learnable step sizes (α ∈ [1e-4, 1.0])
-- Langevin dynamics with noise
-- RMSNorm (Llama2-style)
+Data (not in the repository; sources, checksums and terms in
+[docs/reproducing.md](docs/reproducing.md#data)):
 
----
-
-## 📁 Project Structure
-
-```
-EBT-Mastery/
-├── docs/
-│   └── CALCULATIONS.md              # Manual energy calculations with edge cases
-│
-├── Simple_EBM/                      # 🎓 START HERE - Basic EBMs
-│   ├── simple_ebm.py                # Binary classification EBM
-│   └── simple_ebm_regression.py     # Regression with iterative optimization
-│
-├── EBT_NLP/                         # Energy-Based Transformers for text
-│   ├── transformer_components.py    # RMSNorm, Attention, FFN (from scratch)
-│   ├── ebt_nlp.py                   # Basic EBT with MCMC corruption
-│   ├── ebt_nlp_advanced.py          # Learnable step size + Langevin
-│   └── train_ebt_nlp.py             # Training on synthetic + GLUE
-│
-├── EBT_IMG/                         # Energy-Based Models for images
-│   ├── ebt_img_denoise.py           # Bidirectional EBT for denoising
-│   └── train_ebt_img.py             # Training on MNIST/CIFAR
-│
-├── utils/                           # Shared utilities (OOP/SOLID)
-│   ├── base_energy_model.py         # Abstract base classes
-│   ├── dataset_loaders.py           # Real dataset loaders (CIFAR, GLUE)
-│   ├── device_manager.py            # CPU fallback + version checking
-│   ├── module_loader.py             # Import helper for dashed folders
-│   ├── optimization.py              # StableAdamW, LARS, LR schedulers
-│   ├── model_utils.py               # Checkpointing, logging, seeding
-│   └── visualization.py             # Plotting utilities
-│
-├── tests/                           # Comprehensive unit tests
-│   ├── test_energy_models.py        # Edge cases, stability, gradient flow
-│   ├── test_datasets.py             # Dataset loading tests
-│   └── test_device_manager.py       # Device compatibility tests
-│
-├── benchmarks/                      # Performance benchmarks
-│   └── benchmark_real_datasets.py   # CIFAR-10/100 evaluation
-│
-├── job_scripts/                     # Bash scripts for training
-│   ├── train_simple_ebm.sh
-│   ├── train_ebt_nlp.sh
-│   └── train_ebt_img.sh
-│
-├── Dockerfile                       # GPU container
-├── Dockerfile.cpu                   # CPU container
-├── docker-compose.yml               # Orchestration
-├── requirements.txt                 # Python dependencies
-└── README.md                        # This file
+```sh
+mkdir -p data/mnist/raw data/text/raw
+curl -L -o data/mnist/raw/train-images-idx3-ubyte.gz https://ossci-datasets.s3.amazonaws.com/mnist/train-images-idx3-ubyte.gz
+curl -L -o data/mnist/raw/t10k-images-idx3-ubyte.gz https://ossci-datasets.s3.amazonaws.com/mnist/t10k-images-idx3-ubyte.gz
+curl -L -o data/text/raw/tinyshakespeare.txt https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+curl -L -o data/text/raw/pg1342.txt https://gutenberg.pglaf.org/cache/epub/1342/pg1342.txt
 ```
 
----
+The v1.0 checkpoints come from the GitHub release v1.0 and are checked and unpacked in the
+repository root. The check against the result files is in
+[docs/reproducing.md](docs/reproducing.md#the-v10-checkpoints). With the GitHub command-line tool:
 
-## 🔬 Benchmarks
-
-### CIFAR-10 Denoising (Noise σ=0.2)
-
-| Metric | Value |
-|--------|-------|
-| PSNR | 28.5 dB |
-| Inference Speed | 45 samples/sec (GPU) |
-| Memory | 2.3 GB (batch=32) |
-| Parameters | 1.2M |
-
-**Run benchmarks:**
-```bash
-python benchmarks/benchmark_real_datasets.py --dataset cifar10 --device auto
+```sh
+gh release download v1.0 --repo DeOcxan/equipoise-lm
+shasum -a 256 -c SHA256SUMS
+for f in checkpoints-*-full.tar.gz; do tar -xzf "$f"; done
 ```
 
----
+Or with curl, and `sha256sum` on Linux:
 
-## 🛠️ Usage Examples
-
-### Train on CIFAR-10 (Real Data)
-
-```bash
-# With WandB logging
-python EBT_IMG/train_ebt_img.py \
-    --dataset cifar10 \
-    --num_epochs 50 \
-    --batch_size 64 \
-    --use_wandb
-
-# With TensorBoard logging (local)
-python EBT_IMG/train_ebt_img.py \
-    --dataset cifar10 \
-    --num_epochs 50 \
-    --batch_size 64 \
-    --use_tensorboard
+```sh
+base=https://github.com/DeOcxan/equipoise-lm/releases/download/v1.0
+for f in SHA256SUMS checkpoints-regression-g2-full.tar.gz checkpoints-mnist-denoising-full.tar.gz checkpoints-text-lm-full.tar.gz; do
+  curl -LO "$base/$f"
+done
+sha256sum -c SHA256SUMS
+for f in checkpoints-*-full.tar.gz; do tar -xzf "$f"; done
 ```
 
-### Train on GLUE-SST2 (Sentiment Analysis)
+Regenerate the reports, tables and figures of the report tools from the committed per-seed files.
+These tools need no checkpoints or data, while the experiments do ([docs/reproducing.md, Every
+published file](docs/reproducing.md#every-published-file-and-how-it-is-made)):
 
-```bash
-# Advanced model with TensorBoard
-python EBT_NLP/train_ebt_nlp.py \
-    --dataset glue-sst2 \
-    --model_type advanced \
-    --num_epochs 20 \
-    --use_tensorboard
-
-# View TensorBoard logs
-tensorboard --logdir ./EBT_NLP/outputs/logs/tensorboard
+```sh
+python -m tools.regression_g2_report results/regression/g2/full
+python -m tools.mnist_report results/mnist/denoising/full
+python -m tools.text_report results/text/lm/full
+python -m tools.g5_report
+python -m tools.g3_figure
 ```
 
-### Run Tests
+Rerun G3, G4 and G5 for text into a new directory, and report G5 from it. On Linux use
+`--device cpu` instead of `--device mps`:
 
-```bash
-# All tests
-pytest tests/ -v
-
-# Specific test suite
-pytest tests/test_energy_models.py -v
-
-# With coverage
-pytest tests/ --cov=. --cov-report=html
+```sh
+python -u -m ebt.experiments.inference_g3_g4 --task text --tier full --device mps --output ../equipoise-rerun/text/g3_g4/full
+python -u -m ebt.experiments.inference_g5 --task text --tier full --device mps --output ../equipoise-rerun/text/g5/full
+python -m tools.g5_report --results ../equipoise-rerun --tasks text
 ```
 
----
+The commands for every task and stage are in [docs/reproducing.md](docs/reproducing.md). It also
+explains what is overwritten, `--reuse-stale`, the fingerprints, the durations and the tests.
 
-## 📖 Documentation
+## Repository map
 
-### Learning Path
+- `src/ebt/` holds the package: energies and the thinking loop (`core`), models, tasks and data,
+  training, inference, and the experiments (`experiments`).
+- `tools/` holds the report scripts that write the tables and plots, and the measurement tools.
+- `tests/` holds the test suite. The tests marked `mps` run on Apple MPS only.
+- `results/` holds one JSON file per run, with the tables and plots generated from them.
+- `docs/` holds the design, the questions and answers, the method, and how to rerun everything.
+- `CHANGELOG.md` lists the decisions and revisions of each version with their dates.
 
-1. **Start**: `Simple_EBM/simple_ebm.py` - Understand core energy-based learning (~10 min)
-2. **Math**: `docs/CALCULATIONS.md` - Manual calculations & edge cases (~15 min)
-3. **Scale**: `EBT_NLP/ebt_nlp.py` - Energy-based transformers (~30 min)
-4. **Vision**: `EBT_IMG/ebt_img_denoise.py` - Bidirectional denoising (~20 min)
-5. **Deploy**: Docker + Real datasets for production (~15 min)
+## Documentation map
 
-### Key Concepts
+- [docs/design.md](docs/design.md): the main question, the families, the protocol, the
+  pre-registration lists, the metrics, the versions and the references.
+- [docs/questions.md](docs/questions.md): the principles, the questions, the v1.0 answers and
+  their limitations.
+- [docs/method.md](docs/method.md): the implementation of the EBT and of the v1.0 experiments, with
+  the points where the EBT paper and the authors' code disagree.
+- [docs/numerics.md](docs/numerics.md): floating-point types, tolerances and reproducibility.
+- [docs/reproducing.md](docs/reproducing.md): installation, data, checkpoints, rerun commands,
+  outputs, figures, durations and tests.
+- [docs/glossary.md](docs/glossary.md): model labels, training modes, questions and quantities.
+- [CHANGELOG.md](CHANGELOG.md): the decisions and revisions of v1.0, with dates and reasons.
 
-<details>
-<summary><b>What are Energy-Based Models?</b></summary>
+## Roadmap
 
-Standard models predict probabilities: `p(y|x) = softmax(f(x))`
+All planned ([docs/design.md section 6](docs/design.md#6-versions)):
 
-EBMs assign energy: `E(x, y) = f(x, y)` and find best output: `y* = argmin_y E(x, y)`
+- v1.1: the autoregressive and EBT families at equal training compute on text8, questions C1 to C7.
+- v1.2: MDLM, FLM with FMLM, and recurrent depth, with C8 and the DeepCrossAttention pilot (C9).
+- v1.3: Duo and BD3-LM, and the comparison of distilled few-step models.
+- v1.4: larger models, the compute-optimal frontier (C10), TinyStories at the character level.
 
-**Advantages:**
-- Flexible output spaces
-- Adaptive "thinking" time
-- Better uncertainty quantification
-- Out-of-distribution detection
-</details>
+## Citation
 
-<details>
-<summary><b>Why use Docker?</b></summary>
+See [CITATION.cff](CITATION.cff). Release v1.0 is code version 0.1.0. The version stays unchanged
+because `src/ebt/__init__.py` is hashed into every code fingerprint
+([docs/reproducing.md](docs/reproducing.md#installation)).
 
-Docker ensures **reproducibility** across different machines:
-- Consistent PyTorch/CUDA versions
-- No dependency conflicts
-- Easy deployment
-- Both GPU and CPU support
-</details>
-
-<details>
-<summary><b>CPU vs GPU Training</b></summary>
-
-| Model | CPU Time | GPU Time |
-|-------|----------|----------|
-| Simple EBM | 3 min | 1 min |
-| EBT_NLP | 2-3 hours | 30 min |
-| EBT_IMG (CIFAR) | 4-5 hours | 45 min |
-
-The code **automatically detects** and uses best available device.
-</details>
-
----
-
-## 🧪 Testing & Validation
-
-Comprehensive test suite covering:
-
-- ✅ High-dimensional energy (10K+ dims)
-- ✅ Numerical stability (extreme values)
-- ✅ Gradient flow verification
-- ✅ Memory efficiency (large batches)
-- ✅ Device compatibility (CPU/CUDA/MPS)
-- ✅ Edge cases (zero steps, single pixels)
-
-**Run specific test categories:**
-```bash
-pytest tests/test_energy_models.py::TestEnergyModelEdgeCases -v
-pytest tests/test_device_manager.py::TestDeviceCompatibility -v
+```bibtex
+@software{mokrushin_equipoise_2026,
+  author  = {Mokrushin, Artyom},
+  title   = {Equipoise},
+  version = {1.0},
+  year    = {2026},
+  url     = {https://github.com/DeOcxan/equipoise-lm},
+  license = {MIT}
+}
 ```
 
----
+## Licence
 
-## 🐳 Docker Usage
+MIT, see [LICENSE](LICENSE).
 
-### Build Images
+## Reference
 
-```bash
-# GPU image
-docker build -t ebt-mastery:gpu .
+[EBT] A. Gladstone, G. Nanduru, M. M. Islam, P. Han, H. Ha, A. Chadha, Y. Du, H. Ji, J. Li,
+T. Iqbal. Energy-Based Transformers are Scalable Learners and Thinkers. arXiv:2507.02092, v1,
+2 July 2025; ICLR 2026 (oral). <https://arxiv.org/abs/2507.02092>,
+<https://iclr.cc/virtual/2026/oral/10008833>
 
-# CPU image
-docker build -f Dockerfile.cpu -t ebt-mastery:cpu .
-```
-
-### Run Training
-
-```bash
-# Interactive GPU session
-docker-compose run ebt-gpu bash
-
-# Run specific experiment
-docker-compose run ebt-gpu python EBT_IMG/train_ebt_img.py --dataset cifar10
-
-# Jupyter notebook
-docker-compose up jupyter
-# Access at http://localhost:8888
-```
-
-### Volume Mounting
-
-Data and outputs are automatically mounted:
-- `./data` → `/workspace/data` (datasets)
-- `./outputs` → `/workspace/outputs` (checkpoints, logs)
-
-**Full guide**: See [DOCKER_GUIDE.md](DOCKER_GUIDE.md)
-
----
-
-## ❓ FAQ
-
-<details>
-<summary><b>Do I need a GPU?</b></summary>
-
-No. The code automatically uses CPU if GPU unavailable. Training is slower but works.
-</details>
-
-<details>
-<summary><b>What if I have PyTorch 1.x?</b></summary>
-
-The code checks version and warns you. Update with: `pip install --upgrade torch torchvision`
-</details>
-
-<details>
-<summary><b>How do I add a new dataset?</b></summary>
-
-Implement `IDatasetLoader` interface in `utils/dataset_loaders.py`:
-```python
-class MyDatasetLoader(IDatasetLoader):
-    def load_dataset(self): ...
-    def get_metadata(self): ...
-```
-</details>
-
-<details>
-<summary><b>Why not use diffusion models?</b></summary>
-
-EBTs are more flexible (no fixed noise schedule) and better for reasoning tasks. Diffusion excels at generation.
-</details>
-
-<details>
-<summary><b>How do I choose between WandB and TensorBoard?</b></summary>
-
-Use WandB for cloud experiments with team collaboration. Use TensorBoard for local experiments and quick prototyping. By default, TensorBoard is used if WandB is not specified.
-</details>
-
----
-
-## ⚖️ Known Limitations
-
-### Scale & Model Size
-- **Small Models**: ~1M parameters (sufficient for learning, not for SOTA performance)
-- **Training Epochs**: 50-100 epochs work for CIFAR-10, GLUE may need 200+ for full convergence
-- **Single GPU**: No distributed training yet
-
-### Deployment
-- **Local Only**: Docker works locally, but no cloud deployment guides (AWS/GCP)
-- **No Serving**: No REST API or model serving infrastructure
-- **Inference Optimization**: No TorchScript, ONNX, or quantization yet
-
-### Dependencies
-- **Version Pinning**: Tested with PyTorch 2.0-2.5.1, strict pins may break with future updates
-- **MPS Support**: Apple Silicon works but has edge cases (PyTorch 2.1+ recommended)
-- **Logging**: WandB + TensorBoard supported, but no MLflow/Neptune
-
-💡 **For production**: Use established frameworks (HuggingFace Transformers, PyTorch Lightning) instead.
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE)
-
----
-
-## 🙏 Acknowledgments
-
-- [Energy-Based Transformers](https://arxiv.org/abs/2507.02092) - Original research
-- [PyTorch](https://pytorch.org/) - Deep learning framework
-- [Hugging Face Datasets](https://huggingface.co/docs/datasets/) - GLUE benchmark
-
----
-
-<div align="center">
-
-**Built with ❤️ for the ML community**
-
-</div>
-
+Authors' code: <https://github.com/alexiglad/EBT> (Apache-2.0). The EBT of this repository is a
+reimplementation from the paper and that code, and no code from it is copied. The references of
+every other family are in [docs/design.md](docs/design.md#references).

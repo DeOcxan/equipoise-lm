@@ -1,0 +1,263 @@
+{
+ "models": {
+  "denoiser": {
+   "chosen": {
+    "learning_rate": 0.003,
+    "model": "denoiser",
+    "step_size": null
+   },
+   "tried": [
+    {
+     "candidate": {
+      "learning_rate": 0.0001,
+      "model": "denoiser",
+      "step_size": null
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.005193203222006559,
+     "validation_metrics_for_information": {
+      "mse": 0.010391343384981155,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 25.91197042250913,
+      "smooth_l1": 0.005193203222006559
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0003,
+      "model": "denoiser",
+      "step_size": null
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004025840666145086,
+     "validation_metrics_for_information": {
+      "mse": 0.008053643628954887,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 27.002302063987216,
+      "smooth_l1": 0.004025840666145086
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.001,
+      "model": "denoiser",
+      "step_size": null
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.0037018877919763327,
+     "validation_metrics_for_information": {
+      "mse": 0.007405285257846117,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 27.345444663947735,
+      "smooth_l1": 0.0037018877919763327
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.003,
+      "model": "denoiser",
+      "step_size": null
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.0035664141178131104,
+     "validation_metrics_for_information": {
+      "mse": 0.007134342100471258,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 27.49911016540579,
+      "smooth_l1": 0.0035664141178131104
+     }
+    }
+   ]
+  },
+  "ebt": {
+   "chosen": {
+    "learning_rate": 0.003,
+    "model": "ebt",
+    "step_size": 30000.0
+   },
+   "tried": [
+    {
+     "candidate": {
+      "learning_rate": 0.0001,
+      "model": "ebt",
+      "step_size": 300.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.0064725796692073345,
+     "validation_metrics_for_information": {
+      "mse": 0.0129858972504735,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 24.928616892441376,
+      "smooth_l1": 0.0064725796692073345
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0001,
+      "model": "ebt",
+      "step_size": 3000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.006425951141864061,
+     "validation_metrics_for_information": {
+      "mse": 0.012893373146653175,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 24.950912019631176,
+      "smooth_l1": 0.006425951141864061
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0001,
+      "model": "ebt",
+      "step_size": 30000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.00642012944445014,
+     "validation_metrics_for_information": {
+      "mse": 0.012878961861133575,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 24.94930971271996,
+      "smooth_l1": 0.00642012944445014
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0003,
+      "model": "ebt",
+      "step_size": 300.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004713783506304026,
+     "validation_metrics_for_information": {
+      "mse": 0.009443199262022972,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.308991845526478,
+      "smooth_l1": 0.004713783506304026
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0003,
+      "model": "ebt",
+      "step_size": 3000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004671746399253607,
+     "validation_metrics_for_information": {
+      "mse": 0.009359054267406464,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.34724605790951,
+      "smooth_l1": 0.004671746399253607
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0003,
+      "model": "ebt",
+      "step_size": 30000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.00463457778096199,
+     "validation_metrics_for_information": {
+      "mse": 0.00928435567766428,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.37325918755829,
+      "smooth_l1": 0.00463457778096199
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.001,
+      "model": "ebt",
+      "step_size": 300.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004286878742277622,
+     "validation_metrics_for_information": {
+      "mse": 0.008585714735090733,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.70635657430291,
+      "smooth_l1": 0.004286878742277622
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.001,
+      "model": "ebt",
+      "step_size": 3000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004238281399011612,
+     "validation_metrics_for_information": {
+      "mse": 0.008488214574754238,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.758113575198518,
+      "smooth_l1": 0.004238281399011612
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.001,
+      "model": "ebt",
+      "step_size": 30000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004186118021607399,
+     "validation_metrics_for_information": {
+      "mse": 0.008382780477404594,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.812321684427793,
+      "smooth_l1": 0.004186118021607399
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.003,
+      "model": "ebt",
+      "step_size": 30000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.003987080417573452,
+     "validation_metrics_for_information": {
+      "mse": 0.007982955314218998,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 27.00904067817499,
+      "smooth_l1": 0.003987080417573452
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.003,
+      "model": "ebt",
+      "step_size": 100000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004020804073661566,
+     "validation_metrics_for_information": {
+      "mse": 0.008051085285842419,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.97461237823374,
+      "smooth_l1": 0.004020804073661566
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.001,
+      "model": "ebt",
+      "step_size": 100000.0
+     },
+     "selection_metric": "validation_smooth_l1",
+     "selection_value": 0.004153429996222258,
+     "validation_metrics_for_information": {
+      "mse": 0.00831746868789196,
+      "noisy_input_psnr": 17.631600789757286,
+      "psnr": 26.836894659122173,
+      "smooth_l1": 0.004153429996222258
+     }
+    }
+   ]
+  }
+ },
+ "selection_rule": "minimum of each model's own validation objective, compared exactly as floats; among exactly equal values the first configuration in grid order; an undefined value is never chosen unless every value is undefined"
+}

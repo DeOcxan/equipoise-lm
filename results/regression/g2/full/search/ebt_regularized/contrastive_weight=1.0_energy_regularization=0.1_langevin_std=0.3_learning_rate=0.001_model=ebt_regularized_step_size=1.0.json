@@ -1,0 +1,23 @@
+{
+ "candidate": {
+  "contrastive_weight": 1.0,
+  "energy_regularization": 0.1,
+  "langevin_std": 0.3,
+  "learning_rate": 0.001,
+  "model": "ebt_regularized",
+  "step_size": 1.0
+ },
+ "selection_metric": "validation_contrastive_regularized",
+ "selection_value": 0.31183346807956697,
+ "validation_metrics_for_information": {
+  "branch_distance": 1.6335070133209229,
+  "initial_sign_agreement": 0.90234375,
+  "mean_move": 1.3926901817321777,
+  "mean_predictor_mse": 2.1245920658111572,
+  "mse": 16.618392944335938,
+  "on_branch": 0.0,
+  "positive_branch": 0.5126953125,
+  "positive_branch_on_branch": null,
+  "validation_contrastive_regularized": 0.31183346807956697
+ }
+}

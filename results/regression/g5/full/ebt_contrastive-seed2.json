@@ -1,0 +1,87 @@
+{
+ "checkpoint": {
+  "code_fingerprint": "fc6366d841de3e1b6ed20c015ec4d105538d2659c056772d3310ca4d6ec4ff36",
+  "path": "checkpoints/regression_g2/full/ebt_contrastive-seed2.pt",
+  "sha256": "4c84dd827a5d2b88452b58acca7681d815218570256b1d5557692644feb3d980"
+ },
+ "checkpoint_from_other_code": false,
+ "code_fingerprint": "45251537523c1b9e4c46862dba28a670bc0254503f47523606372600180812ae",
+ "device": "cpu",
+ "environment": {
+  "ebt": "0.1.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.8",
+  "torch": "2.15.0"
+ },
+ "error": "branch_distance",
+ "evaluation_seeds": {
+  "g3_initial": 2000002,
+  "g4_candidates": 2001002
+ },
+ "experiment": "inference_g5",
+ "fingerprint_module": "inference_g5",
+ "g3": {
+  "branch_distance": [
+   15.528726577758789,
+   34.52222442626953,
+   31.41345977783203,
+   21.769771575927734,
+   20.915693283081055,
+   24.28432273864746,
+   24.18130111694336
+  ],
+  "on_branch": [
+   0.006103515625,
+   0.0,
+   0.000244140625,
+   0.0048828125,
+   0.0048828125,
+   0.004638671875,
+   0.00390625
+  ],
+  "steps": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32,
+   64
+  ],
+  "undefined_from_step": null
+ },
+ "model": "ebt_contrastive",
+ "question": "G5",
+ "seconds": 0.056492583942599595,
+ "seed": 2,
+ "settings": {
+  "name": "ood"
+ },
+ "split": {
+  "name": "ood",
+  "rows": 4096
+ },
+ "task": "regression",
+ "test_rows_limit": null,
+ "trained_inference": {
+  "langevin_std": 0.0,
+  "samples": 1,
+  "steps": 4
+ },
+ "trained_thinking": {
+  "energy_scaled_step": false,
+  "langevin_std": 0.3,
+  "mode": "s2",
+  "step_size": 1.0,
+  "step_size_jitter": 2.0,
+  "step_size_learnable": false,
+  "steps_max": 4,
+  "steps_min": 2
+ },
+ "x_range": [
+  4.002358913421631,
+  8.998699188232422
+ ]
+}

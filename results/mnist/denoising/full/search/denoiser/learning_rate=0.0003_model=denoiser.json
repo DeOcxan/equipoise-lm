@@ -1,0 +1,15 @@
+{
+ "candidate": {
+  "learning_rate": 0.0003,
+  "model": "denoiser",
+  "step_size": null
+ },
+ "selection_metric": "validation_smooth_l1",
+ "selection_value": 0.004025840666145086,
+ "validation_metrics_for_information": {
+  "mse": 0.008053643628954887,
+  "noisy_input_psnr": 17.631600789757286,
+  "psnr": 27.002302063987216,
+  "smooth_l1": 0.004025840666145086
+ }
+}

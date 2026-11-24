@@ -1,0 +1,22 @@
+{
+ "candidate": {
+  "components": 2,
+  "contrastive_weight": null,
+  "energy_regularization": null,
+  "langevin_std": null,
+  "learning_rate": 0.01,
+  "model": "mdn",
+  "step_size": null
+ },
+ "selection_metric": "validation_nll",
+ "selection_value": -4.475306034088135,
+ "validation_metrics_for_information": {
+  "branch_distance": 0.0010260669514536858,
+  "mean_predictor_mse": 2.1245920658111572,
+  "mse": 4.261614799499512,
+  "on_branch": 1.0,
+  "positive_branch": 0.8310546875,
+  "positive_branch_on_branch": 0.8310546875,
+  "validation_nll": -4.475306034088135
+ }
+}

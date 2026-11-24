@@ -1,0 +1,133 @@
+{
+ "checkpoint": {
+  "code_fingerprint": "0ac75f44527b8471e75b5098d26a5e05125b5f49c9292110900caa73fa162845",
+  "path": "checkpoints/mnist_denoising/full/ebt-seed1.pt",
+  "sha256": "edff39acf4b5cc4cebb77c0bc0e3cd9af6e307b7d3a0ffb61fce015700d6c274"
+ },
+ "checkpoint_from_other_code": false,
+ "code_fingerprint": "9e9d7952086e018f695cb6119c8b016aef56c447d276ae879772144c63388844",
+ "device": "mps",
+ "environment": {
+  "ebt": "0.1.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.8",
+  "torch": "2.15.0"
+ },
+ "error": "per-image pixel MSE (PSNR for G3)",
+ "evaluation_seeds": {
+  "g3_initial": 2000001,
+  "g4_candidates": 2001001
+ },
+ "experiment": "inference_g3_g4",
+ "fingerprint_module": "inference_mnist",
+ "g3": {
+  "psnr": [
+   27.66535235878773,
+   27.026038945064688,
+   25.43933623458967,
+   23.461797898507747,
+   21.2915929017688,
+   19.07555694368118,
+   17.002727399060845
+  ],
+  "steps": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32,
+   64
+  ],
+  "undefined_from_step": null
+ },
+ "g4": {
+  "best_of_n": [
+   {
+    "fraction": null,
+    "lowest_energy": 181.64604586931824,
+    "lowest_energy_psnr": 25.538544124309528,
+    "n": 1,
+    "oracle": 181.64604586931824,
+    "oracle_psnr": 25.538544124309528,
+    "random": 181.64604586931824
+   },
+   {
+    "fraction": -0.1399332247822933,
+    "lowest_energy": 184.06516647784386,
+    "lowest_energy_psnr": 25.4810875290611,
+    "n": 2,
+    "oracle": 165.14174780876448,
+    "oracle_psnr": 25.95223484146318,
+    "random": 181.74221023733648
+   },
+   {
+    "fraction": -0.21615483731542098,
+    "lowest_energy": 188.300789911492,
+    "lowest_energy_psnr": 25.382282190058785,
+    "n": 4,
+    "oracle": 152.80455071349968,
+    "oracle_psnr": 26.289440725946513,
+    "random": 181.99182038415103
+   },
+   {
+    "fraction": -0.2793949843133113,
+    "lowest_energy": 192.92143106022746,
+    "lowest_energy_psnr": 25.27699886079319,
+    "n": 8,
+    "oracle": 142.96268126318537,
+    "oracle_psnr": 26.57857676106709,
+    "random": 182.01141164714605
+   },
+   {
+    "fraction": -0.337206711479841,
+    "lowest_energy": 197.86793585365209,
+    "lowest_energy_psnr": 25.167049376066807,
+    "n": 16,
+    "oracle": 135.3695625351572,
+    "oracle_psnr": 26.81559335433264,
+    "random": 182.10756705005383
+   },
+   {
+    "fraction": -0.3947403775855825,
+    "lowest_energy": 203.05998432315712,
+    "lowest_energy_psnr": 25.05456012548634,
+    "n": 32,
+    "oracle": 128.91784979303608,
+    "oracle_psnr": 27.02767307518204,
+    "random": 182.07622659321703
+   }
+  ],
+  "candidates": 32,
+  "non_finite_values": 0,
+  "perturbation_std": 0.3209078595563531,
+  "perturbed_first_psnr": 25.538544124309528,
+  "spearman": 0.6061186187987316,
+  "spearman_pairs": 10000,
+  "spearman_perturbed_first": 0.6451917014864484,
+  "standard_psnr": 27.026038945064688
+ },
+ "model": "ebt",
+ "seconds": 276.46745820797514,
+ "seed": 1,
+ "task": "mnist",
+ "test_rows": 10000,
+ "test_rows_limit": null,
+ "trained_inference": {
+  "langevin_std": 0.0,
+  "samples": 1,
+  "steps": 2
+ },
+ "trained_thinking": {
+  "energy_scaled_step": false,
+  "langevin_std": 0.0,
+  "mode": "s1",
+  "step_size": 30000.0,
+  "step_size_jitter": 1.0,
+  "step_size_learnable": true,
+  "steps_max": 1,
+  "steps_min": 1
+ }
+}

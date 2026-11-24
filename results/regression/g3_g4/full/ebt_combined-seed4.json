@@ -1,0 +1,152 @@
+{
+ "checkpoint": {
+  "code_fingerprint": "fc6366d841de3e1b6ed20c015ec4d105538d2659c056772d3310ca4d6ec4ff36",
+  "path": "checkpoints/regression_g2/full/ebt_combined-seed4.pt",
+  "sha256": "41dd36ddb81ea4b6135cc0a0394434e803774f8e8692d5d8b2c3dea78ab495cf"
+ },
+ "checkpoint_from_other_code": false,
+ "code_fingerprint": "cbf3c18444be7394e58de3f33573a3ba236bfcbaf0e43a6aa5044d2a5386bcf2",
+ "device": "cpu",
+ "environment": {
+  "ebt": "0.1.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.8",
+  "torch": "2.15.0"
+ },
+ "error": "branch_distance",
+ "evaluation_seeds": {
+  "g3_initial": 2000004,
+  "g4_candidates": 2001004
+ },
+ "experiment": "inference_g3_g4",
+ "fingerprint_module": "inference_regression",
+ "g3": {
+  "branch_distance": [
+   0.7759754657745361,
+   0.944585382938385,
+   0.9756978154182434,
+   0.9759571552276611,
+   0.9759572744369507,
+   0.9759572744369507,
+   0.9759572744369507
+  ],
+  "on_branch": [
+   0.018798828125,
+   0.00048828125,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "steps": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32,
+   64
+  ],
+  "undefined_from_step": null
+ },
+ "g4": {
+  "best_of_n": [
+   {
+    "fraction": null,
+    "lowest_energy": 0.9755975800508168,
+    "n": 1,
+    "oracle": 0.9755975800508168,
+    "random": 0.9755975800508168
+   },
+   {
+    "fraction": -0.26294485222955194,
+    "lowest_energy": 0.9761554093274754,
+    "n": 2,
+    "oracle": 0.9736255261814222,
+    "random": 0.9756286881893175
+   },
+   {
+    "fraction": -0.13546711129522995,
+    "lowest_energy": 0.9761738745874027,
+    "n": 4,
+    "oracle": 0.9717457772349007,
+    "random": 0.9756455796232331
+   },
+   {
+    "fraction": -0.07904101962646848,
+    "lowest_energy": 0.976099749939749,
+    "n": 8,
+    "oracle": 0.9700031095853774,
+    "random": 0.9756531638868182
+   },
+   {
+    "fraction": -0.05804294845173236,
+    "lowest_energy": 0.976041841582628,
+    "n": 16,
+    "oracle": 0.9687246846442576,
+    "random": 0.9756404312583982
+   },
+   {
+    "fraction": -0.04569603506854195,
+    "lowest_energy": 0.9760098507103976,
+    "n": 32,
+    "oracle": 0.9679892122076126,
+    "random": 0.9756593555703148
+   }
+  ],
+  "candidates": 32,
+  "coverage": [
+   {
+    "coverage": 0.0,
+    "n": 1
+   },
+   {
+    "coverage": 0.0,
+    "n": 2
+   },
+   {
+    "coverage": 0.0,
+    "n": 4
+   },
+   {
+    "coverage": 0.0,
+    "n": 8
+   },
+   {
+    "coverage": 0.0,
+    "n": 16
+   },
+   {
+    "coverage": 0.0,
+    "n": 32
+   }
+  ],
+  "non_finite_values": 0,
+  "spearman": 0.10376441480608949,
+  "spearman_pairs": 4096
+ },
+ "model": "ebt_combined",
+ "seconds": 0.5799294160096906,
+ "seed": 4,
+ "task": "regression",
+ "test_rows": 4096,
+ "test_rows_limit": null,
+ "trained_inference": {
+  "langevin_std": 0.0,
+  "samples": 1,
+  "steps": 4
+ },
+ "trained_thinking": {
+  "energy_scaled_step": false,
+  "langevin_std": 0.1,
+  "mode": "s2",
+  "step_size": 1.0,
+  "step_size_jitter": 2.0,
+  "step_size_learnable": false,
+  "steps_max": 4,
+  "steps_min": 2
+ }
+}

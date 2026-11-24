@@ -1,0 +1,138 @@
+{
+ "models": {
+  "ebt": {
+   "chosen": {
+    "learning_rate": 0.0012,
+    "model": "ebt",
+    "step_size": 50.0
+   },
+   "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+   "tried": [
+    {
+     "candidate": {
+      "learning_rate": 0.0012,
+      "model": "ebt",
+      "step_size": 0.5
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.101663604953629,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.101663604953629
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0012,
+      "model": "ebt",
+      "step_size": 5.0
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.1185162126041734,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.1185162126041734
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.0012,
+      "model": "ebt",
+      "step_size": 50.0
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.1008074758089124,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.1008074758089124
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.003,
+      "model": "ebt",
+      "step_size": 50.0
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.125150615921709,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.125150615921709
+     }
+    }
+   ]
+  },
+  "transformer": {
+   "chosen": {
+    "learning_rate": 0.003,
+    "model": "transformer",
+    "step_size": null
+   },
+   "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+   "tried": [
+    {
+     "candidate": {
+      "learning_rate": 0.0003,
+      "model": "transformer",
+      "step_size": null
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.0759426639189273,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.0759426639189273
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.001,
+      "model": "transformer",
+      "step_size": null
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.084121522187001,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.084121522187001
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.003,
+      "model": "transformer",
+      "step_size": null
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.054657803427174,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.054657803427174
+     }
+    },
+    {
+     "candidate": {
+      "learning_rate": 0.01,
+      "model": "transformer",
+      "step_size": null
+     },
+     "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+     "selection_metric": "validation_bpc_best_checkpoint",
+     "selection_value": 2.2878877142940333,
+     "selection_value_undefined": null,
+     "validation_metrics_for_information": {
+      "bpc": 2.2878877142940333
+     }
+    }
+   ]
+  }
+ },
+ "reused_stale_files": [],
+ "selection_rule": "minimum of each model's own validation objective, compared exactly as floats; among exactly equal values the first configuration in grid order; an undefined value (null, from NaN, an infinity or a run stopped by a non-finite value) ranks after every defined value and is chosen only if every value is undefined"
+}

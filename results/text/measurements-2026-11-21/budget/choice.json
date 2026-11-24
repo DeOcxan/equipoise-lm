@@ -1,0 +1,13 @@
+{
+ "dim": 256,
+ "depth": 6,
+ "sequence_length": 128,
+ "batch_size": 32,
+ "layout": "split",
+ "train_steps": 2000,
+ "validate_every": 200,
+ "search_hours": 3.194602489987975,
+ "final_hours": 4.032968063757182,
+ "ebt_parameters": 6328641,
+ "baseline_parameters": 6328064
+}

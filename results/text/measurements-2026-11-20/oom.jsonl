@@ -1,0 +1,1 @@
+{"key": "256x6 S256 B64 ebt full", "exit": 1, "reason": "out of memory", "error": "RuntimeError: MPS backend out of memory (MPS allocated: 11.82 GiB, other allocations: 2.69 MiB, max allowed: 11.84 GiB). Tried to allocate 96.00 MiB on shared pool."}

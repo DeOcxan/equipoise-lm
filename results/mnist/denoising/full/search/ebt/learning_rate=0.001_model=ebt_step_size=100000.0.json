@@ -1,0 +1,15 @@
+{
+ "candidate": {
+  "learning_rate": 0.001,
+  "model": "ebt",
+  "step_size": 100000.0
+ },
+ "selection_metric": "validation_smooth_l1",
+ "selection_value": 0.004153429996222258,
+ "validation_metrics_for_information": {
+  "mse": 0.00831746868789196,
+  "noisy_input_psnr": 17.631600789757286,
+  "psnr": 26.836894659122173,
+  "smooth_l1": 0.004153429996222258
+ }
+}

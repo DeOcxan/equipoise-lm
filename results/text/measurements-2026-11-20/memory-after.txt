@@ -1,0 +1,3 @@
+Date: 2026-11-20, after the measurements
+Total memory: 16 GiB
+System-wide memory free percentage: 61%

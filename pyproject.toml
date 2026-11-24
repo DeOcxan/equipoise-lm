@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "equipoise-lm"
+dynamic = ["version"]
+description = "Families of text generation compared at equal training compute, under one protocol, at small scale; v1.0 is an independent Energy-Based Transformer reimplementation compared with same-size baselines on three small tasks."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "Artyom Mokrushin" }]
+keywords = [
+    "energy-based transformers",
+    "energy-based models",
+    "language models",
+    "text generation",
+    "inference-time compute",
+    "reimplementation",
+    "benchmark",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# Runtime dependencies at the versions of requirements.txt; every result file records all three.
+dependencies = ["torch==2.15.0", "numpy==2.5.5", "matplotlib==3.11.2"]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "ruff==0.17.5"]
+
+[project.urls]
+Repository = "https://github.com/DeOcxan/equipoise-lm"
+Documentation = "https://github.com/DeOcxan/equipoise-lm/tree/main/docs"
+Issues = "https://github.com/DeOcxan/equipoise-lm/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "ebt.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = ["--strict-markers", "-ra"]
+markers = ["mps: runs on the Apple MPS backend; skipped where MPS is unavailable"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests", "."]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+# Docstrings, comments and generated tables use the notation of docs/method.md (α, ŷ, ∇, −, ×).
+ignore = ["RUF001", "RUF002", "RUF003"]

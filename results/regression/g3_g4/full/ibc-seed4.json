@@ -1,0 +1,107 @@
+{
+ "checkpoint": {
+  "code_fingerprint": "fc6366d841de3e1b6ed20c015ec4d105538d2659c056772d3310ca4d6ec4ff36",
+  "path": "checkpoints/regression_g2/full/ibc-seed4.pt",
+  "sha256": "895ed51a76505ed09dbfa33b3e49661f1d01e0e0dbda2e1b0d205a50ed4ea1e1"
+ },
+ "checkpoint_from_other_code": false,
+ "code_fingerprint": "cbf3c18444be7394e58de3f33573a3ba236bfcbaf0e43a6aa5044d2a5386bcf2",
+ "device": "cpu",
+ "environment": {
+  "ebt": "0.1.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.8",
+  "torch": "2.15.0"
+ },
+ "error": "branch_distance",
+ "evaluation_seeds": {
+  "g3_initial": 2000004,
+  "g4_candidates": 2001004
+ },
+ "experiment": "inference_g3_g4",
+ "fingerprint_module": "inference_regression",
+ "g4": {
+  "best_of_n": [
+   {
+    "fraction": null,
+    "lowest_energy": 0.0002256216105947905,
+    "n": 1,
+    "oracle": 0.0002256216105947905,
+    "random": 0.0002256216105947905
+   },
+   {
+    "fraction": 0.06932410360945733,
+    "lowest_energy": 0.00022331406896484128,
+    "n": 2,
+    "oracle": 0.00019778602148305853,
+    "random": 0.00022521559990105414
+   },
+   {
+    "fraction": 0.03502180303737571,
+    "lowest_energy": 0.00022344912067651275,
+    "n": 4,
+    "oracle": 0.00017478427755654793,
+    "random": 0.00022521530622967526
+   },
+   {
+    "fraction": 0.023129205579154523,
+    "lowest_energy": 0.0002234619719923385,
+    "n": 8,
+    "oracle": 0.0001536491528557147,
+    "random": 0.00022511491837490347
+   },
+   {
+    "fraction": 0.014939408369383842,
+    "lowest_energy": 0.00022353482294005037,
+    "n": 16,
+    "oracle": 0.00013202635375839794,
+    "random": 0.00022492263847340643
+   },
+   {
+    "fraction": 0.011967096632602415,
+    "lowest_energy": 0.00022363275311881696,
+    "n": 32,
+    "oracle": 0.0001136333588451742,
+    "random": 0.00022496507047010554
+   }
+  ],
+  "candidates": 32,
+  "coverage": [
+   {
+    "coverage": 0.0,
+    "n": 1
+   },
+   {
+    "coverage": 0.00927734375,
+    "n": 2
+   },
+   {
+    "coverage": 0.019287109375,
+    "n": 4
+   },
+   {
+    "coverage": 0.03271484375,
+    "n": 8
+   },
+   {
+    "coverage": 0.055908203125,
+    "n": 16
+   },
+   {
+    "coverage": 0.08056640625,
+    "n": 32
+   }
+  ],
+  "non_finite_values": 0,
+  "spearman": -0.36083194709932487,
+  "spearman_pairs": 4096
+ },
+ "model": "ibc",
+ "seconds": 599.362450250017,
+ "seed": 4,
+ "task": "regression",
+ "test_rows": 4096,
+ "test_rows_limit": null
+}

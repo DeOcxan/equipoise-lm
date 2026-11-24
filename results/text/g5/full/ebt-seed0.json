@@ -1,0 +1,75 @@
+{
+ "checkpoint": {
+  "code_fingerprint": "3cabc631a7d8b3895f6384bedc22e3e31347185ddec594a937282a1b4fb769f5",
+  "path": "checkpoints/text_lm/full/ebt-seed0.pt",
+  "sha256": "9f07d14f4fb792f2346678309c35fba9da0e1884b7960b80d4c87a3abfe632a8"
+ },
+ "checkpoint_from_other_code": false,
+ "code_fingerprint": "45251537523c1b9e4c46862dba28a670bc0254503f47523606372600180812ae",
+ "device": "mps",
+ "environment": {
+  "ebt": "0.1.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.8",
+  "torch": "2.15.0"
+ },
+ "error": "bits per character of each position",
+ "evaluation_seeds": {
+  "g3_initial": 2000000,
+  "g4_candidates": 2001000
+ },
+ "experiment": "inference_g5",
+ "fingerprint_module": "inference_g5",
+ "g3": {
+  "bpc": [
+   2.625625913529109,
+   2.6316903917834207,
+   2.63798236183996,
+   2.6392465828955594,
+   2.6394992091141933,
+   2.6395186020031725,
+   2.639527210756825
+  ],
+  "positions": 55680,
+  "steps": [
+   1,
+   2,
+   4,
+   8,
+   16,
+   32,
+   64
+  ],
+  "undefined_from_step": null
+ },
+ "model": "ebt",
+ "question": "G5",
+ "seconds": 196.35381274996325,
+ "seed": 0,
+ "settings": {
+  "name": "ood"
+ },
+ "split": {
+  "name": "ood",
+  "rows": 435
+ },
+ "task": "text",
+ "test_rows_limit": null,
+ "trained_inference": {
+  "langevin_std": 0.0,
+  "samples": 1,
+  "steps": 4
+ },
+ "trained_thinking": {
+  "energy_scaled_step": true,
+  "langevin_std": 3.0,
+  "mode": "s2",
+  "step_size": 50.0,
+  "step_size_jitter": 2.0,
+  "step_size_learnable": false,
+  "steps_max": 4,
+  "steps_min": 2
+ }
+}

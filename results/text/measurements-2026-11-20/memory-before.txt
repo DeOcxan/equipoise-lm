@@ -1,0 +1,7 @@
+Date: 2026-11-20, before the measurements
+Total memory: 16 GiB
+System-wide memory free percentage: 64%
+vm_stat page size: 16384 bytes
+Pages free: 249383
+Pages inactive: 193049
+Pages speculative: 8639

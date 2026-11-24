@@ -1,0 +1,107 @@
+{
+ "checkpoint": {
+  "code_fingerprint": "fc6366d841de3e1b6ed20c015ec4d105538d2659c056772d3310ca4d6ec4ff36",
+  "path": "checkpoints/regression_g2/full/ired-seed3.pt",
+  "sha256": "89637a76674aa75d4e2f7f9c799c91eadb5bfd30f095e93873448147a34126df"
+ },
+ "checkpoint_from_other_code": false,
+ "code_fingerprint": "cbf3c18444be7394e58de3f33573a3ba236bfcbaf0e43a6aa5044d2a5386bcf2",
+ "device": "cpu",
+ "environment": {
+  "ebt": "0.1.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.5",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.8",
+  "torch": "2.15.0"
+ },
+ "error": "branch_distance",
+ "evaluation_seeds": {
+  "g3_initial": 2000003,
+  "g4_candidates": 2001003
+ },
+ "experiment": "inference_g3_g4",
+ "fingerprint_module": "inference_regression",
+ "g4": {
+  "best_of_n": [
+   {
+    "fraction": null,
+    "lowest_energy": 0.018517103656677136,
+    "n": 1,
+    "oracle": 0.018517103656677136,
+    "random": 0.018517103656677136
+   },
+   {
+    "fraction": -1.0,
+    "lowest_energy": 0.018518723971510553,
+    "n": 2,
+    "oracle": 0.01851225979771698,
+    "random": 0.018515491884613766
+   },
+   {
+    "fraction": -0.6843806938613792,
+    "lowest_energy": 0.01852034059311336,
+    "n": 4,
+    "oracle": 0.018507413460156386,
+    "random": 0.01851508816992009
+   },
+   {
+    "fraction": -0.6183605666831492,
+    "lowest_energy": 0.018523564514907775,
+    "n": 8,
+    "oracle": 0.018494509169613593,
+    "random": 0.018512462736879343
+   },
+   {
+    "fraction": -0.506895771857876,
+    "lowest_energy": 0.01852518367900302,
+    "n": 16,
+    "oracle": 0.018486472392851283,
+    "random": 0.018512161818009076
+   },
+   {
+    "fraction": -0.5578094517781597,
+    "lowest_energy": 0.018526805275314473,
+    "n": 32,
+    "oracle": 0.018486472392851283,
+    "random": 0.018512363160439804
+   }
+  ],
+  "candidates": 32,
+  "coverage": [
+   {
+    "coverage": 0.0,
+    "n": 1
+   },
+   {
+    "coverage": 0.0009765625,
+    "n": 2
+   },
+   {
+    "coverage": 0.001953125,
+    "n": 4
+   },
+   {
+    "coverage": 0.00439453125,
+    "n": 8
+   },
+   {
+    "coverage": 0.005859375,
+    "n": 16
+   },
+   {
+    "coverage": 0.006103515625,
+    "n": 32
+   }
+  ],
+  "non_finite_values": 0,
+  "spearman": 0.1745843470859594,
+  "spearman_pairs": 4096
+ },
+ "model": "ired",
+ "seconds": 6.954985958000179,
+ "seed": 3,
+ "task": "regression",
+ "test_rows": 4096,
+ "test_rows_limit": null
+}

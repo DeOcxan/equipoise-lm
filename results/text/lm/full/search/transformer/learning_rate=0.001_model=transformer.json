@@ -1,0 +1,14 @@
+{
+ "candidate": {
+  "learning_rate": 0.001,
+  "model": "transformer",
+  "step_size": null
+ },
+ "code_fingerprint": "f448d4e814083f64dd087bf6676f3e56300bba02c99308d629962c45dc26deb0",
+ "selection_metric": "validation_bpc_best_checkpoint",
+ "selection_value": 2.084121522187001,
+ "selection_value_undefined": null,
+ "validation_metrics_for_information": {
+  "bpc": 2.084121522187001
+ }
+}
