@@ -18,6 +18,14 @@ authors:
     family-names: Mokrushin
     alias: DeOcxan
 version: "1.0"
+doi: 10.5281/zenodo.24517958
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24517958
+    description: "all versions"
+  - type: doi
+    value: 10.5281/zenodo.24517959
+    description: "version 1.0"
 date-released: 2026-11-24
 license: MIT
 repository-code: "https://github.com/DeOcxan/equipoise-lm"

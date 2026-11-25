@@ -1,5 +1,12 @@
 # Equipoise
 
+- **Tested:** an independent reimplementation of the Energy-Based Transformer against same-size
+  baselines, at equal parameters and equal training steps, on three small tasks.
+- **Found:** at this scale more thinking did not improve the result, and the energy did not
+  select better candidates on text or MNIST; the EBT was not better than its baseline at the
+  pre-registered settings.
+- **Next:** from v1.1, the comparison of families at equal training compute on text8.
+
 Families of text generation compared at equal training compute, under one protocol, at small
 scale. This is v1.0: an independent reimplementation of the Energy-Based Transformer, compared
 with same-size baselines on three small tasks. The comparison of families is built in the next
@@ -8,12 +15,15 @@ versions (see [Roadmap](#roadmap)).
 [![CI][ci-badge]][ci]
 [![Licence: MIT][licence-badge]](LICENSE)
 [![Python 3.12][python-badge]][python]
+[![DOI][doi-badge]][doi]
 
 [ci-badge]: https://github.com/DeOcxan/equipoise-lm/actions/workflows/ci.yml/badge.svg
 [ci]: https://github.com/DeOcxan/equipoise-lm/actions/workflows/ci.yml
 [licence-badge]: https://img.shields.io/badge/licence-MIT-blue.svg
 [python-badge]: https://img.shields.io/badge/python-3.12-blue.svg
 [python]: https://www.python.org/downloads/
+[doi-badge]: https://zenodo.org/badge/1078664158.svg
+[doi]: https://doi.org/10.5281/zenodo.24517958
 
 ## What this is
 
@@ -68,13 +78,29 @@ S2, I and the others are defined in the [glossary](docs/glossary.md).
   ([G5](docs/questions.md#g5-does-thinking-help-more-out-of-distribution)).
 - With two correct answers per input, the EBT trained with the paper's objective, (b), predicts
   near the mean of the two, as does (c2). The model (c1) diverged, and (c3) does not reach a
-  branch. Only the models with objectives from outside the paper, (a2), (c4) and (c5), reach a
-  branch, and they return one branch per input ([G2](docs/questions.md#g2-why-use-an-energy)).
+  branch, for a cause that was not established. Only the models with objectives from outside the
+  paper, (a2), (c4) and (c5), reach a branch, and they return one branch per input
+  ([G2](docs/questions.md#g2-why-use-an-energy)).
 
   ![Regression predictions of every model, seed 0](results/regression/g2/full/predictions.png)
 
   *Test data and predictions against x, seed 0: (a), (b) and (c2) predict near the mean, (c1)
   diverged, (c3) is scattered, and (a2), (c4) and (c5) lie on the branches.*
+
+  | Label | Model |
+  |---|---|
+  | (a) | feed-forward regressor trained with mean squared error |
+  | (a2) | mixture density network, trained by negative log-likelihood |
+  | (b) | EBT with the paper's objective: S2 thinking, mean squared error of the final candidate |
+  | (c1) | EBT trained with the contrastive energy loss alone |
+  | (c2) | EBT trained with mean squared error plus the contrastive loss |
+  | (c3) | EBT trained with the contrastive loss plus an energy-magnitude penalty |
+  | (c4) | implicit behavioural cloning energy: InfoNCE training, derivative-free inference |
+  | (c5) | IRED energy: a sequence of noised energy landscapes, annealed gradient inference |
+
+  S1 detaches the candidate between thinking steps and averages the losses of all steps. S2 does
+  not detach it, keeps the second-order graph of the final step only and uses the final step's
+  loss. The other labels and quantities are in the [glossary](docs/glossary.md).
 
 ## Results
 
@@ -141,6 +167,21 @@ Regression EBTs and energies (`results/regression/g3_g4/full/table.md` and
 - G7 was measured only at equal parameters and equal steps (the first table). Its part at equal
   cost and its plots are planned for v1.1.
 
+### Comparison with the paper's numbers
+
+The paper's numbers are not directly comparable with these. Its language models use the
+GPT-NeoX-20B tokenizer at context length 256 ([EBT] Table D.2), and its thinking experiments use
+the xxs size, 384 wide and 6 layers deep ([EBT] Appendix D.1.2). The authors' image code works on
+three RGB channels ([docs/method.md section 4.2](docs/method.md#42-images)). This project uses
+characters of Tiny Shakespeare, one-channel MNIST and a regression task, at smaller sizes. The
+implementation is checked against the authors' code, with every difference and corrections 13.1
+to 13.4 in [docs/method.md section 13](docs/method.md#13-disagreements). Its gradients are
+checked against finite differences
+([G1](docs/questions.md#g1-is-the-implementation-faithful-to-the-method)). The paper's claims are
+compared one by one in the [claims table](docs/questions.md#the-ebt-papers-claims-w2) of
+docs/questions.md. The negative results hold at this scale and may not transfer to the paper's
+scale ([Limitations](#limitations)).
+
 ## Limitations
 
 v1.0 is small. It has one model size and one dataset per task, about 8.2 passes over Tiny
@@ -181,6 +222,9 @@ curl -L -o data/mnist/raw/t10k-images-idx3-ubyte.gz https://ossci-datasets.s3.am
 curl -L -o data/text/raw/tinyshakespeare.txt https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
 curl -L -o data/text/raw/pg1342.txt https://gutenberg.pglaf.org/cache/epub/1342/pg1342.txt
 ```
+
+`pg1342.txt` is Pride and Prejudice from Project Gutenberg. It is used only as out-of-distribution
+text: for the out-of-distribution BPC of the text final runs and for G5.
 
 The v1.0 checkpoints come from the GitHub release v1.0 and are checked and unpacked in the
 repository root. The check against the result files is in
@@ -264,7 +308,8 @@ All planned ([docs/design.md section 6](docs/design.md#6-versions)):
 
 See [CITATION.cff](CITATION.cff). Release v1.0 is code version 0.1.0. The version stays unchanged
 because `src/ebt/__init__.py` is hashed into every code fingerprint
-([docs/reproducing.md](docs/reproducing.md#installation)).
+([docs/reproducing.md](docs/reproducing.md#installation)). The DOI 10.5281/zenodo.24517958 cites
+all versions; release v1.0 has its own DOI 10.5281/zenodo.24517959.
 
 ```bibtex
 @software{mokrushin_equipoise_2026,
@@ -273,6 +318,7 @@ because `src/ebt/__init__.py` is hashed into every code fingerprint
   version = {1.0},
   year    = {2026},
   url     = {https://github.com/DeOcxan/equipoise-lm},
+  doi     = {10.5281/zenodo.24517958},
   license = {MIT}
 }
 ```
@@ -281,7 +327,7 @@ because `src/ebt/__init__.py` is hashed into every code fingerprint
 
 MIT, see [LICENSE](LICENSE).
 
-## Reference
+## Reimplemented in v1.0
 
 [EBT] A. Gladstone, G. Nanduru, M. M. Islam, P. Han, H. Ha, A. Chadha, Y. Du, H. Ji, J. Li,
 T. Iqbal. Energy-Based Transformers are Scalable Learners and Thinkers. arXiv:2507.02092, v1,

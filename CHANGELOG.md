@@ -7,6 +7,8 @@ Installation](docs/reproducing.md#installation)). It contains the autoregressive
 on Tiny Shakespeare at equal parameters and equal steps, and the EBT study on three tasks
 ([docs/questions.md, section C](docs/questions.md#c-the-v10-answers)).
 
+Archive record: Zenodo, DOI 10.5281/zenodo.24517959 (<https://doi.org/10.5281/zenodo.24517959>).
+
 ### Decisions and revisions made after results had been seen
 
 The list below gives every such decision and revision of v1.0 with its date and reason. What they
